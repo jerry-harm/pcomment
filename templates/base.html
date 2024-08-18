@@ -5,7 +5,7 @@
     <div class="comment-header">{{comment.name}}</div>
     <div class="comment-content">{{comment.content}}</div>
     <div class="comment-footer">{{comment.time}}</div>
-    # replay
+
     <div class="comment-replay">
         {{drawcomment(comment.replays)}}
     </div>
@@ -22,7 +22,6 @@
     <title>{{ post }}</title>
 </head>
 <body>
-    # upload
     <div class="comment-form">
         <form action="comment" method="post">
             
@@ -41,7 +40,6 @@
         </form>
     </div>
 
-    # comment list
     <div class="commentlist">
         <h3>comments:</h3>
         {{drawcomment(comments)}}
