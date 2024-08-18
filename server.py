@@ -7,9 +7,9 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello World!'
 
-@app.route('/post/<name>', methods=['POST'])
-def get_post(name):
-    return f"{name}"
+@app.route('/post/<id>', methods=['POST'])
+def get_post(id):
+    return f"{id}"
 
 if __name__ == '__main__':
     app.run()

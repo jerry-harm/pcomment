@@ -1,0 +1,51 @@
+{% macro drawcomment(comments) %}
+
+{% for comment in comments %}
+<div class="comment">
+    <div class="comment-header">{{comment.name}}</div>
+    <div class="comment-content">{{comment.content}}</div>
+    <div class="comment-footer">{{comment.time}}</div>
+    # replay
+    <div class="comment-replay">
+        {{drawcomment(comment.replays)}}
+    </div>
+</div>
+{% endfor %}
+ 
+{% endmacro %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ post }}</title>
+</head>
+<body>
+    # upload
+    <div class="comment-form">
+        <form action="comment" method="post">
+            
+            <label for="name">name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="link">url or email</label>
+            <input type="text" id="link" name="link">
+            
+            <label for="comment">comment here</label>
+            <textarea id="comment" name="comment" rows="10" cols="30">
+                comment...            
+            </textarea> 
+            
+            <button>Submit</button>
+        </form>
+    </div>
+
+    # comment list
+    <div class="commentlist">
+        <h3>comments:</h3>
+        {{drawcomment(comments)}}
+    </div>
+
+</body>
+</html>
