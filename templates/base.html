@@ -1,70 +1,21 @@
-{% macro drawcomment(comments) %}
-
-{% for comment in comments %}
-<div class="comment">
-    <div class="comment-header">
-        <p>
-            {{comment.name}}
-        </p>
-    </div>
-
-    <div class="comment-content">
-        <p>
-            {{comment.content}}
-        </p>
-    </div>
-
-    <div class="comment-footer">
-        <p>
-            {{comment.time}}
-        </p>
-        <p>
-            <a href="/comment/{{comment.id}}">replay</a>
-        </p>
-    </div>
-
-    <div class="comment-replay">
-        {{drawcomment(comment.replays)}}
-    </div>
-</div>
-{% endfor %}
-
-{% endmacro %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head>{% block head %}
     <meta charset="utf-8">
-    <title>{{ post.id }}</title>
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
 </head>
 
 <body>
-    <div class="content">
-       <p>{{post.name}}</p>
-       <p>{{post.content}}</p>
-       <p> {{post.date}} </p>
+    <div id="body">
+        {% block body %}{% endblock %}
     </div>
-
-    <div class="comment-form">
-        <form action="/comment/{{post.id}}" method="post">
-
-            <label for="name">name:</label>
-            <input type="text" id="name" name="name">
-
-            <label for="comment">comment here</label>
-            <textarea id="comment" name="comment" rows="10" cols="30"></textarea>
-
-            <button>Submit</button>
-        </form>
+    <div id="footer">
+        {% block footer %}
+        created by jerry
+        {% endblock %}
     </div>
-
-    <div class="commentlist">
-        <h3>comments:</h3>
-        {{drawcomment(comments)}}
-    </div>
-
 </body>
 
 </html>

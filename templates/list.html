@@ -1,0 +1,32 @@
+{% macro drawcomment(comments) %}
+
+{% for comment in comments %}
+<div class="comment">
+    <div class="comment-header">
+        <p>
+            {{comment.name}}
+        </p>
+    </div>
+
+    <div class="comment-content">
+        <p>
+            {{comment.content}}
+        </p>
+    </div>
+
+    <div class="comment-footer">
+        <p>
+            {{comment.date}}
+        </p>
+        <p>
+            <a href="/comment/{{comment.id}}">replay</a>
+        </p>
+    </div>
+
+    <div class="comment-replay">
+        {{drawcomment(comment.replays)}}
+    </div>
+</div>
+{% endfor %}
+
+{% endmacro %}
