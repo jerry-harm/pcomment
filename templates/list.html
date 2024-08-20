@@ -3,24 +3,23 @@
 {% for comment in comments %}
 <div class="comment">
     <div class="comment-header">
-        <p>
+        <div class="name">
             {{comment.name}}
-        </p>
+        </div class="name">
+        <div class="date">
+            {{comment.date}}
+        </div>
     </div>
 
     <div class="comment-content">
-        <p>
             {{comment.content}}
-        </p>
     </div>
 
     <div class="comment-footer">
-        <p>
-            {{comment.date}}
-        </p>
-        <p>
+
+        <div class="replay">
             <a href="/comment/{{comment.id}}">replay</a>
-        </p>
+        </div>
     </div>
 
     <div class="comment-replay">

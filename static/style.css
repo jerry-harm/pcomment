@@ -1,0 +1,47 @@
+body{
+    background-color: #282828;
+    color:#ebdbb2
+}
+
+.comment{
+    display: block;
+    background-color: #3c3836;
+    border-color: #32302f;
+    border-width: 10px;
+    border-style: solid;
+
+}
+
+.name{
+}
+
+.date{
+    flex:1;
+    text-align: right;
+}
+
+
+.comment-header{
+    display: flex;
+
+}
+
+.comment-content{
+    background-color: #504945;
+
+}
+
+.comment-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.replay{
+    background: #7c6f64;
+    float: right;
+}
+
+.comment-form{
+    display: flex;
+    background: #665c54;
+}

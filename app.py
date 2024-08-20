@@ -34,7 +34,6 @@ class Comment(db.Model):
         data=[]
         replays =  db.session.execute(db.select(Comment).filter_by(replay_id=self.id)).scalars()
         for replay in replays:
-            print(replay.id)
             data.append(replay.to_dict())
         return data
         
@@ -70,7 +69,7 @@ def get_comment(id):
 def post_comment(id):
     # 评论给id
     post = db.get_or_404(Comment,id)
-    comment = Comment(content=request.form.get('content'),replay_id=post.id,name=request.form.get('name'))
+    comment = Comment(content=request.form.get('content'),replay_id=post.id,name=request.form.get('name'),title=request.form.get('title'))
     db.session.add(comment)
     db.session.commit()
     
