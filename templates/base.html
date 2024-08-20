@@ -2,40 +2,60 @@
 
 {% for comment in comments %}
 <div class="comment">
-    <div class="comment-header">{{comment.name}}</div>
-    <div class="comment-content">{{comment.content}}</div>
-    <div class="comment-footer">{{comment.time}}</div>
+    <div class="comment-header">
+        <p>
+            {{comment.name}}
+        </p>
+    </div>
+
+    <div class="comment-content">
+        <p>
+            {{comment.content}}
+        </p>
+    </div>
+
+    <div class="comment-footer">
+        <p>
+            {{comment.time}}
+        </p>
+        <p>
+            <a href="/comment/{{comment.id}}">replay</a>
+        </p>
+    </div>
 
     <div class="comment-replay">
         {{drawcomment(comment.replays)}}
     </div>
 </div>
 {% endfor %}
- 
+
 {% endmacro %}
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>{{ post }}</title>
+    <title>{{ post.id }}</title>
 </head>
+
 <body>
+    <div class="content">
+       <p>{{post.name}}</p>
+       <p>{{post.content}}</p>
+       <p> {{post.date}} </p>
+    </div>
+
     <div class="comment-form">
-        <form action="comment" method="post">
-            
+        <form action="/comment/{{post.id}}" method="post">
+
             <label for="name">name:</label>
             <input type="text" id="name" name="name">
 
-            <label for="link">url or email</label>
-            <input type="text" id="link" name="link">
-            
             <label for="comment">comment here</label>
-            <textarea id="comment" name="comment" rows="10" cols="30">
-                comment...            
-            </textarea> 
-            
+            <textarea id="comment" name="comment" rows="10" cols="30"></textarea>
+
             <button>Submit</button>
         </form>
     </div>
@@ -46,4 +66,5 @@
     </div>
 
 </body>
+
 </html>
