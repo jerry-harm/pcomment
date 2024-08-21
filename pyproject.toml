@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "comment"
+version = "0.1.0"
+description = "anonymous comment or forum system"
+authors = ["jerry <jestar@no.reply>"]
+license = "GPL v3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Flask = "^3.0.3"
+Flask-SQLAlchemy = "^3.1.1"
+Markdown = "^3.7"
+click = "^8.1.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
