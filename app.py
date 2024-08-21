@@ -53,9 +53,12 @@ class Comment(db.Model):
 
 @app.get("/")
 def index():
-    posts = db.session.execute(db.select(Comment).filter_by(replay_id=None).order_by(Comment.date)).scalars()
-    return render_template("index.html",comments=posts)
-
+    try:
+        posts = db.session.execute(db.select(Comment).filter_by(replay_id=None).order_by(Comment.date)).scalars()
+        return render_template("index.html",comments=posts)
+    except Exception:
+        db.create_all()
+        return 'No table'
 
 @app.get("/post/<title>")
 def get_post(title):
