@@ -12,14 +12,23 @@
     </div>
 
     <div class="comment-content">
+        {% if comment.title %}
+        <p>{{comment.title}}</p>
+        {% endif %}
             {{comment.content}}
     </div>
 
     <div class="comment-footer">
-
+        <div class="like">
+            <a href="/like/{{comment.id}}">like</a>{{comment.like}}
+        </div>
+        <div class="dislke">
+            <a href="/dislike/{{comment.id}}">dislike</a>{{comment.dislike}}
+        </div>
         <div class="replay">
             <a href="/comment/{{comment.id}}">replay</a>
         </div>
+
     </div>
 
     <div class="comment-replay">

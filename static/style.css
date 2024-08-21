@@ -1,47 +1,84 @@
-body{
+body {
     background-color: #282828;
-    color:#ebdbb2
+    color: #ebdbb2
 }
 
-.comment{
+.comment {
+    border: 2px solid #32302f;
+    border-radius: 5px;
     display: block;
     background-color: #3c3836;
-    border-color: #32302f;
-    border-width: 10px;
-    border-style: solid;
 
 }
 
-.name{
-}
-
-.date{
-    flex:1;
+.date {
+    flex: 1;
     text-align: right;
 }
 
 
-.comment-header{
+.comment-header {
     display: flex;
 
 }
 
-.comment-content{
+.comment-content {
     background-color: #504945;
 
 }
 
-.comment-footer{
+.comment-footer {
     display: flex;
     justify-content: flex-end;
 }
 
-.replay{
-    background: #7c6f64;
-    float: right;
+.comment-form {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.comment-form{
-    display: flex;
+.comment-form>form {
+    border: 2px solid #fabd2f;
+    border-radius: 5px;
     background: #665c54;
+}
+
+#footer {
+    text-align: center;
+}
+
+a {
+    outline-color: transparent;
+}
+
+a:link {
+    color: #98971a;
+}
+
+a:visited {
+    color: #a5c300;
+}
+
+a:focus {
+    text-decoration: none;
+    background: #bae498;
+}
+
+a:hover {
+    text-decoration: none;
+    background: #cdfeaa;
+}
+
+a:active {
+    background: #6900ff;
+    color: #cdfeaa;
+}
+
+.comment-footer > div{
+    border: 2px solid #928374;
+    border-radius: 5px;
+    background: #7c6f64;
+    float: right;
 }
