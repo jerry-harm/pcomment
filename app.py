@@ -119,7 +119,7 @@ def post_comment(id):
     return redirect(url_for('get_comment',id=post.id))
 
 
-@app.cli.command('create')
+@app.cli.command('create',help='add a comment')
 @click.argument("content")
 @click.option('--title',default=None)
 @click.option('--name',default=None)
@@ -153,7 +153,7 @@ def change_post(id,content,title,name,replay_id):
         db.session.commit()
     print('modified')
 
-@app.cli.command('post')
+@app.cli.command('post',help='add new post')
 @click.argument('title')
 @click.argument("content",default='post')
 @click.argument('name',default='admin')
