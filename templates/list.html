@@ -15,7 +15,7 @@
         {% if comment.title %}
         <p>{{comment.title}}</p>
         {% endif %}
-            {{comment.content}}
+            {{ comment.content|safe}}
     </div>
 
     <div class="comment-footer">

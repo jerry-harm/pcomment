@@ -94,6 +94,9 @@ def get_comment(id):
     return render_template('comment.html',comments=data,post=post)
     
 
+import markdown
+import markupsafe
+
 @app.post("/comment/<int:id>")
 def post_comment(id):
     # 评论给id
@@ -104,7 +107,7 @@ def post_comment(id):
         name = request.form.get('name')
     else:
         name = None
-    comment = Comment(content=request.form.get('content'),replay_id=post.id,name=name,title=request.form.get('title'))
+    comment = Comment(content=markdown.markdown(markupsafe.Markup.escape(request.form.get('content'))),replay_id=post.id,name=name,title=request.form.get('title'))
     db.session.add(comment)
     db.session.commit()
     reference = request.headers.get('Referer')
