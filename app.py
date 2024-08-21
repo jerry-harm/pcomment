@@ -107,7 +107,10 @@ def post_comment(id):
         name = request.form.get('name')
     else:
         name = None
-    comment = Comment(content=markdown.markdown(markupsafe.Markup.escape(request.form.get('content'))),replay_id=post.id,name=name,title=request.form.get('title'))
+    comment = Comment(
+        content=markdown.markdown(markupsafe.Markup.escape(request.form.get('content'))),              
+        replay_id=post.id,name=name,title=request.form.get('title')
+        )
     db.session.add(comment)
     db.session.commit()
     reference = request.headers.get('Referer')
@@ -149,6 +152,22 @@ def change_post(id,content,title,name,replay_id):
         print(comment.__dict__)
         db.session.commit()
     print('modified')
+
+@app.cli.command('post')
+@click.argument('title')
+@click.argument("content",default='post')
+@click.argument('name',default='admin')
+def create_post(content,title,name):
+    with app.app_context():
+        db.create_all()
+        searched = db.session.execute(db.select(Comment).filter_by(replay_id=None).filter_by(title=title)).scalar()
+        if searched:
+            print('error')
+        else:
+            comment=Comment(content=content,name=name,title=title)
+            db.session.add(comment)
+            db.session.commit()
+            print('added')
 
 if __name__ == '__main__':
     with app.app_context():
