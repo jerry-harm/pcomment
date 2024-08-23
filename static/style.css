@@ -82,3 +82,15 @@ a:active {
     background: #7c6f64;
     float: right;
 }
+
+input {
+    background-color: #282828;
+    border-color: #1d2021;
+    color: #ebdbb2;
+}
+
+textarea {
+    background-color: #282828;
+    border-color: #1d2021;
+    color: #ebdbb2;
+}
