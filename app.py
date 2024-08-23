@@ -60,12 +60,14 @@ def index():
         db.create_all()
         return 'No table'
 
-@app.get("/post/<title>")
-def get_post(title):
+@app.get("/post/<title>/<content>")
+def get_post(title,content):
     post = db.session.execute(db.select(Comment).filter_by(replay_id=None).filter_by(title=title)).scalar()
-    if post:
-        return redirect(url_for('get_comment',id=post.id))
-    abort(404)
+    if not post:
+        post = Comment(title=title,name='jestar',content=content)
+        db.session.add(post)
+        db.session.commit()
+    return redirect(url_for('get_comment',id=post.id))        
 
 @app.get("/like/<int:id>")
 def like(id):
@@ -156,6 +158,15 @@ def change_post(id,content,title,name,replay_id):
         db.session.commit()
     print('modified')
 
+@app.cli.command('del',help='delete a comment')
+@click.argument("id")
+def change_post(id,content,title,name,replay_id):
+    with app.app_context():
+        comment=db.get_or_404(Comment,id)
+        print(comment.__dict__)
+        db.session.delete(comment)
+    print('modified')
+
 @app.cli.command('post',help='add new post')
 @click.argument('title')
 @click.argument("content",default='post')
@@ -171,6 +182,12 @@ def create_post(content,title,name):
             db.session.add(comment)
             db.session.commit()
             print('added')
+
+@app.cli.command('init',help='init db')
+def create_post():
+    with app.app_context():
+        db.create_all()
+    print('created')
 
 if __name__ == '__main__':
     with app.app_context():

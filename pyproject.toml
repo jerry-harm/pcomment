@@ -7,12 +7,10 @@ license = "GPL v3"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 Flask = "^3.0.3"
 Flask-SQLAlchemy = "^3.1.1"
 Markdown = "^3.7"
-click = "^8.1.7"
-
 
 [build-system]
 requires = ["poetry-core"]
