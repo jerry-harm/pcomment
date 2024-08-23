@@ -16,13 +16,13 @@
 <div class="comment-form">
     <form action="/comment/{{post.id}}" method="post" id="comment-form">
         <label for="name">name:</label>
-        <input type="text" id="name" name="name">
-        <label for="title">title:</label>
-        <input type="text" id="title" name="title">
+        <input type="text" id="name" name="name" placeholder="anonymous">
+        <label for="title" >title:</label>
+        <input type="text" id="title" name="title" placeholder="if you want a title">
         <br>
         <label for="comment">comment here (support markdown):</label>
         <br>
-        <textarea id="comment" name="content" required></textarea>
+        <textarea id="comment" name="content" required placeholder="comment here..."></textarea>
 
         <input type="submit" value="submit">
     </form>
