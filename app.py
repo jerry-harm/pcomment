@@ -160,7 +160,7 @@ def change_post(id,content,title,name,replay_id):
 
 @app.cli.command('del',help='delete a comment')
 @click.argument("id")
-def change_post(id,content,title,name,replay_id):
+def change_post(id):
     with app.app_context():
         comment=db.get_or_404(Comment,id)
         print(comment.__dict__)
