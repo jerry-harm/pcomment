@@ -47,7 +47,7 @@ class Comment(db.Model):
                 'dislike':self.dislike,
                 'content':self.content,
                 'date':self.date,
-                'replay':self.get_replays()
+                'replays':self.get_replays()
                 }
 
 

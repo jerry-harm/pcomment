@@ -94,3 +94,10 @@ textarea {
     border-color: #1d2021;
     color: #ebdbb2;
 }
+
+.comment-replay{
+    display: flex;
+    flex-direction: column;
+    width: 98%;
+    margin-left: auto;
+}
