@@ -23,7 +23,7 @@ db = SQLAlchemy(app)
 class Comment(db.Model):  
     id= mapped_column(Integer,primary_key=True)
     name = mapped_column(String(60),default='anonymous')
-    title = mapped_column(String(60),nullable=True)
+    title = mapped_column(String(300),nullable=True)
     content = mapped_column(Text,default='nothing...')
     date = mapped_column(DateTime,default=datetime.now)
     like = mapped_column(Integer,default=0)
@@ -107,7 +107,7 @@ def post_comment(id):
     # 评论给id
     post = db.get_or_404(Comment,id)
     if not request.form.get('content'):
-        abort(402)
+        abort(400)
     if request.form.get('name'):
         name = request.form.get('name')
     else:
@@ -182,6 +182,15 @@ def create_post(content,title,name):
             db.session.add(comment)
             db.session.commit()
             print('added')
+
+@app.cli.command('check',help='check all comments')
+def create_post():
+    with app.app_context():
+        searched = db.session.execute(db.select(Comment).filter(Comment.replay_id != None)).scalars()
+        for comment in searched:
+            print(comment.name+':'+comment.title+'to'+str(comment.replay_id))
+            print(comment.content)
+            print('\n')
 
 @app.cli.command('init',help='init db')
 def create_post():
