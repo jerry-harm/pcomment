@@ -176,7 +176,7 @@ def change_post(id,content,title,name,replay_id):
 
 @app.cli.command('del',help='delete a comment')
 @click.argument("id")
-def change_post(id):
+def del_comment(id):
     with app.app_context():
         comment=db.get_or_404(Comment,id)
         print(comment.__dict__)
@@ -187,7 +187,7 @@ def change_post(id):
 @click.argument('title')
 @click.argument("content",default='post')
 @click.argument('name',default='admin')
-def create_post(content,title,name):
+def new_post(content,title,name):
     with app.app_context():
         db.create_all()
         searched = db.session.execute(db.select(Comment).filter_by(replay_id=None).filter_by(title=title)).scalar()
@@ -200,7 +200,7 @@ def create_post(content,title,name):
             print('added')
 
 @app.cli.command('check',help='check all comments')
-def create_post():
+def check_comments():
     with app.app_context():
         searched = db.session.execute(db.select(Comment).filter(Comment.replay_id != None)).scalars()
         for comment in searched:
@@ -209,7 +209,7 @@ def create_post():
             print('\n')
 
 @app.cli.command('init',help='init db')
-def create_post():
+def init():
     with app.app_context():
         db.create_all()
     print('created')
