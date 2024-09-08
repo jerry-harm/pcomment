@@ -181,6 +181,7 @@ def del_comment(id):
         comment=db.get_or_404(Comment,id)
         print(comment.__dict__)
         db.session.delete(comment)
+        db.session.commit()
     print('modified')
 
 @app.cli.command('post',help='add new post')
