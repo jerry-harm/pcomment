@@ -205,7 +205,7 @@ def check_comments():
     with app.app_context():
         searched = db.session.execute(db.select(Comment).filter(Comment.replay_id != None)).scalars()
         for comment in searched:
-            print(comment.name+':'+comment.title+'to'+str(comment.replay_id))
+            print(str(comment.id)+' '+comment.name+':'+comment.title+'to'+str(comment.replay_id))
             print(comment.content)
             print('\n')
 
