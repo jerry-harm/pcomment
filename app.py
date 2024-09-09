@@ -118,6 +118,15 @@ def get_comment(id):
 import markdown
 import markupsafe
 
+from markdown.extensions import Extension
+from markdown.inlinepatterns import SimpleTagPattern
+
+class MyExtension(Extension):
+    def extendMarkdown(self, md):
+        md.inlinePatterns.register(SimpleTagPattern(r'(~)(.*?)~', 'del'),'del',20)
+        md.inlinePatterns.register(markdown.inlinepatterns.LinkInlineProcessor(markdown.inlinepatterns.IMAGE_LINK_RE, md),'image_link',150)
+        md.inlinePatterns.register(markdown.inlinepatterns.ReferenceInlineProcessor(markdown.inlinepatterns.IMAGE_REFERENCE_RE, md),'image_reference',140)
+
 @app.post("/comment/<int:id>")
 def post_comment(id):
     # 评论给id
@@ -129,7 +138,10 @@ def post_comment(id):
     else:
         name = None
     comment = Comment(
-        content=markdown.markdown(markupsafe.Markup.escape(request.form.get('content'))),              
+        content=markdown.markdown(
+            markupsafe.Markup.escape(request.form.get('content')),
+            extensions=[MyExtension()]
+            ),
         replay_id=post.id,name=name,title=request.form.get('title')
         )
     db.session.add(comment)
