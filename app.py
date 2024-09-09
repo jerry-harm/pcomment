@@ -186,15 +186,22 @@ def change_post(id,content,title,name,replay_id):
         db.session.commit()
     print('modified')
 
+
+def del_comment_obj(id):
+    comment = comment=db.get_or_404(Comment,id)
+    comments = db.session.execute(db.select(Comment).filter_by(replay_id=comment.id)).scalars()
+    for c in comments:
+        del_comment_obj(c.id)
+    print(comment.__dict__)
+    db.session.delete(comment)
+    db.session.commit()
+
 @app.cli.command('del',help='delete a comment')
 @click.argument("id")
 def del_comment(id):
     with app.app_context():
-        comment=db.get_or_404(Comment,id)
-        print(comment.__dict__)
-        db.session.delete(comment)
-        db.session.commit()
-    print('modified')
+        del_comment_obj(id)
+        print('modified')
 
 @app.cli.command('post',help='add new post')
 @click.argument('title')
