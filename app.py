@@ -26,6 +26,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 import click
 
+import os
+Admin_name=os.getenv('ADMIN')
+
 WIN = sys.platform.startswith('win')
 if WIN:  # 如果是 Windows 系统，使用三个斜线
     prefix = 'sqlite:///'
@@ -87,14 +90,13 @@ def get_post(title,content):
 
 @app.get("/like/<int:id>")
 def like(id):
-    # 
     comment = db.get_or_404(Comment,id)
     comment.like+=1
     db.session.commit()
     reference = request.headers.get('Referer')
     if reference:
-        return redirect(reference)
-    return redirect(url_for('get_comment',id=id))
+        return render_template('redirect.html',url=reference)
+    return render_template('redirect.html',url=url_for('get_comment',id=id))
 
 @app.get("/dislike/<int:id>")
 def dislike(id):
@@ -103,8 +105,8 @@ def dislike(id):
     db.session.commit()
     reference = request.headers.get('Referer')
     if reference:
-        return redirect(reference)
-    return redirect(url_for('get_comment',id=comment.id))
+        return render_template('redirect.html',url=reference)
+    return render_template('redirect.html',url=url_for('get_comment',id=id))
 
 
 @app.get("/comment/<int:id>")
@@ -135,6 +137,9 @@ def post_comment(id):
         abort(400)
     if request.form.get('name'):
         name = request.form.get('name')
+        if Admin_name in name:
+            abort(401)
+        name = request.form.get('name')
     else:
         name = None
     comment = Comment(
@@ -148,8 +153,8 @@ def post_comment(id):
     db.session.commit()
     reference = request.headers.get('Referer')
     if reference:
-        return redirect(reference)
-    return redirect(url_for('get_comment',id=post.id))
+        return render_template('redirect.html',url=reference)
+    return render_template('redirect.html',url=url_for('get_comment',id=id))
 
 
 @app.cli.command('create',help='add a comment')
