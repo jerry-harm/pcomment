@@ -49,7 +49,7 @@ class Comment(db.Model):
     def get_replays(self):
         # 查询并返回
         data=[]
-        replays =  db.session.execute(db.select(Comment).filter_by(replay_id=self.id).order_by(Comment.date)).scalars()
+        replays =  db.session.execute(db.select(Comment).filter_by(replay_id=self.id).order_by(Comment.date.desc())).scalars()
         for replay in replays:
             data.append(replay.to_dict())
         return data
