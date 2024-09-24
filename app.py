@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
+from pathlib import Path
 import sys
 
 from datetime import datetime
@@ -26,7 +27,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 import click
 
-import os
+import dotenv
+env_path = Path('.') / '.env'
+dotenv.load_dotenv(dotenv_path=env_path, verbose=True)
 Admin_name=os.getenv('ADMIN')
 
 WIN = sys.platform.startswith('win')
