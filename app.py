@@ -232,7 +232,7 @@ def check_comments():
     with app.app_context():
         searched = db.session.execute(db.select(Comment).filter(Comment.replay_id != None)).scalars()
         for comment in searched:
-            print(str(comment.id)+' '+comment.name+':'+comment.title+' to '+str(comment.replay_id))
+            print(f"{comment.id} {comment.name} :{comment.title} to {comment.replay_id}")
             print(comment.content)
             print('\n')
 
@@ -241,7 +241,7 @@ def check_comments():
 def get_one_comment(id):
     with app.app_context():
         comment = db.session.get_one(Comment,id)
-        print(str(comment.id)+' '+comment.name+':'+comment.title+'to'+str(comment.replay_id))
+        print(f"{comment.id} {comment.name} :{comment.title} to {comment.replay_id}")
         print(comment.content)
         print('\n')
 
@@ -252,7 +252,11 @@ def get_one_comment(id):
 def comment_to(content,replay_id,title):
     with app.app_context():
         post = db.session.get_one(Comment,replay_id)
-        comment=Comment(content=content,name=Admin_name,title=title,replay_id=post.id)
+        comment=Comment(content=markdown.markdown(
+            markupsafe.Markup.escape(content),
+            extensions=[MyExtension()]
+            ),name=Admin_name,title=title,replay_id=post.id)
+        
         db.session.add(comment)
         db.session.commit()
 
