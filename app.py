@@ -83,7 +83,7 @@ def index():
 def get_post(title,content):
     post = db.session.execute(db.select(Comment).filter_by(replay_id=None).filter_by(title=title)).scalar()
     if not post:
-        post = Comment(title=title,name='jestar',content=content)
+        post = Comment(title=title,name=Admin_name,content=content)
         db.session.add(post)
         db.session.commit()
     return redirect(url_for('get_comment',id=post.id))        
@@ -178,7 +178,7 @@ def create_post(content,title,name,replay_id):
 @click.option('--replay_id',default=None)
 def change_post(id,content,title,name,replay_id):
     with app.app_context():
-        comment=db.get_or_404(Comment,id)
+        comment=db.session.get_one(Comment,id)
         if content:
             comment.content=content
         if title:
@@ -211,7 +211,7 @@ def del_comment(id):
 @app.cli.command('post',help='add new post')
 @click.argument('title')
 @click.argument("content",default='post')
-@click.argument('name',default='admin')
+@click.argument('name',default=Admin_name)
 def new_post(content,title,name):
     with app.app_context():
         db.create_all()
@@ -229,9 +229,30 @@ def check_comments():
     with app.app_context():
         searched = db.session.execute(db.select(Comment).filter(Comment.replay_id != None)).scalars()
         for comment in searched:
-            print(str(comment.id)+' '+comment.name+':'+comment.title+'to'+str(comment.replay_id))
+            print(str(comment.id)+' '+comment.name+':'+comment.title+' to '+str(comment.replay_id))
             print(comment.content)
             print('\n')
+
+@app.cli.command('get',help='get post by id')
+@click.argument("id")
+def get_one_comment(id):
+    with app.app_context():
+        comment = db.session.get_one(Comment,id)
+        print(str(comment.id)+' '+comment.name+':'+comment.title+'to'+str(comment.replay_id))
+        print(comment.content)
+        print('\n')
+
+@app.cli.command('comment',help="comment to a comment as admin")
+@click.argument("content")
+@click.argument('replay_id')
+@click.option('--title',default=None)
+def comment_to(content,replay_id,title):
+    with app.app_context():
+        post = db.session.get_one(Comment,replay_id)
+        comment=Comment(content=content,name=Admin_name,title=title,replay_id=post.id)
+        db.session.add(comment)
+        db.session.commit()
+
 
 @app.cli.command('init',help='init db')
 def init():
