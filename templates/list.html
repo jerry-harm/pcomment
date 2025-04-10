@@ -20,13 +20,13 @@
 
     <div class="comment-footer">
         <div class="like">
-            <a href="/like/{{comment.id}}">like</a>{{comment.like}}
+            <a href="{{ url_for('like', id=comment.id) }}">like</a>{{comment.like}}
         </div>
-        <div class="dislke">
-            <a href="/dislike/{{comment.id}}">dislike</a>{{comment.dislike}}
+        <div class="dislike">
+            <a href="{{ url_for('dislike', id=comment.id) }}">dislike</a>{{comment.dislike}}
         </div>
         <div class="replay">
-            <a href="/comment/{{comment.id}}">replay</a>
+            <a href="{{ url_for('get_comment', id=comment.id) }}">replay</a>
         </div>
 
     </div>

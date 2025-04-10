@@ -31,6 +31,7 @@ import dotenv
 env_path = Path('.') / '.env'
 dotenv.load_dotenv(dotenv_path=env_path, verbose=True)
 Admin_name=os.getenv('ADMIN')
+RootPath=os.getenv('ROOTPATH')
 
 WIN = sys.platform.startswith('win')
 if WIN:  # 如果是 Windows 系统，使用三个斜线
@@ -38,7 +39,7 @@ if WIN:  # 如果是 Windows 系统，使用三个斜线
 else:  # 否则使用四个斜线
     prefix = 'sqlite:////'
 
-app = Flask(__name__)
+app = Flask(__name__ ,static_url_path=RootPath+'/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
 db = SQLAlchemy(app)
 
@@ -73,7 +74,7 @@ class Comment(db.Model):
                 }
 
 
-@app.get("/")
+@app.get(RootPath+"/")
 def index():
     try:
         posts = db.session.execute(db.select(Comment).filter_by(replay_id=None).order_by(Comment.date)).scalars()
@@ -82,7 +83,7 @@ def index():
         db.create_all()
         return 'No table'
 
-@app.get("/post/<title>/<content>")
+@app.get(RootPath+"/post/<title>/<content>")
 def get_post(title,content):
     post = db.session.execute(db.select(Comment).filter_by(replay_id=None).filter_by(title=title)).scalar()
     if not post:
@@ -91,7 +92,7 @@ def get_post(title,content):
         db.session.commit()
     return redirect(url_for('get_comment',id=post.id))        
 
-@app.get("/like/<int:id>")
+@app.get(RootPath+"/like/<int:id>")
 def like(id):
     comment = db.get_or_404(Comment,id)
     comment.like+=1
@@ -101,7 +102,7 @@ def like(id):
         return render_template('redirect.html',url=reference)
     return render_template('redirect.html',url=url_for('get_comment',id=id))
 
-@app.get("/dislike/<int:id>")
+@app.get(RootPath+"/dislike/<int:id>")
 def dislike(id):
     comment = db.get_or_404(Comment,id)
     comment.dislike+=1
@@ -112,7 +113,7 @@ def dislike(id):
     return render_template('redirect.html',url=url_for('get_comment',id=id))
 
 
-@app.get("/comment/<int:id>")
+@app.get(RootPath+"/comment/<int:id>")
 def get_comment(id):
     post = db.get_or_404(Comment,id)
     data=post.get_replays()
@@ -132,7 +133,7 @@ class MyExtension(Extension):
         md.inlinePatterns.register(markdown.inlinepatterns.LinkInlineProcessor(markdown.inlinepatterns.IMAGE_LINK_RE, md),'image_link',150)
         md.inlinePatterns.register(markdown.inlinepatterns.ReferenceInlineProcessor(markdown.inlinepatterns.IMAGE_REFERENCE_RE, md),'image_reference',140)
 
-@app.post("/comment/<int:id>")
+@app.post(RootPath+"/comment/<int:id>")
 def post_comment(id):
     # 评论给id
     post = db.get_or_404(Comment,id)
